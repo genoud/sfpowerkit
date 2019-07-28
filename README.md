@@ -758,4 +758,76 @@ EXAMPLE
   }
 ```
 
- 
+## `sfpowerkit:profile:sync`
+
+retrieve profiles from the salesforce org with all their configurations. Run this command preferably again the production org. Use the merge equivalent again other type of orgs.
+```
+
+USAGE
+  $ sfdx sfpowerkit:profile:sync [-f <array>] [-n <array>] [-u <string>] [--apiversion <string>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -f, --folder=folder                             comma separated list of folders to scan for profiles. If ommited, all folders in the package directories will be used.
+  -n, --profilelist=profilelist                   comma separated list of profiles. If ommited, all the profiles found in the folder(s) will be synchronized
+  -u, --targetusername=targetusername             username or alias for the target org; overrides default target org
+  --apiversion=apiversion                         override the api version used for api requests made by this command
+  --json                                          format output as json
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+
+EXAMPLES
+  $ sfdx sfpowerkit:source:profile:sync -u prod
+  $ sfdx sfpowerkit:source:profile:sync  -f force-app -n "My Profile" -r -u prod
+  $ sfdx sfpowerkit:source:profile:sync  -f "module1, module2, module3" -n "My Profile1, My profile2"  -u prod
+```
+_See code: [src\commands\sfpowerkit\profile\sync.ts](https://github.com/Accenture/sfpowerkit/blob/master/src/commands/sfpowerkit/profile/sync.ts)_
+
+
+## `sfpowerkit:profile:reconcile`
+
+cleanup profile configurations to make them compatible with the target org.
+```
+
+USAGE
+  $ sfdx sfpowerkit:profile:reconcile [-f <array>] [-n <array>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -f, --folder=folder                               the folders to Scan. You can provide a comma separated list of folder. If ommited, the folders listed in the package directories will be used.
+  -n, --profilelist=profilelist                     the profile names that will be reconcile. if ommited, all the profiles components will be reconciled.
+  -u, --targetusername=targetusername               username or alias for the target org; overrides default target org
+  --apiversion=apiversion                           override the api version used for api requests made by this command
+  --json                                            format output as json
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+
+EXAMPLES
+  $ sfdx sfpowerkit:profile:reconcile  --folder force-app
+  $ sfdx sfpowerkit:profile:reconcile  --folder force-app,module2,module3 -u sandbox
+  $ sfdx sfpowerkit:profile:reconcile  -u myscratchorg
+```
+
+## `sfpowerkit:profile:merge`
+
+retrieve profiles from a development environment and merge it with the profile configurations
+```
+
+USAGE
+  $ sfdx sfpowerkit:profile:merge [-f <array>] [-n <array>] [-m <array>] [-u <string>] [--apiversion <string>] [--json] [--loglevel
+  trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+
+OPTIONS
+  -f, --folder=folder                                 comma separated list of folders to scan for profiles. If ommited, the folders in the packageDirectories configuration will be used.
+  -m, --metadata=metadata                             comma separated list of metadata for which the permissions will be retrieved.
+  -n, --profilelist=profilelist                       comma separated list of profiles. If ommited, all the profiles found in the folder(s) will be merged
+  -u, --targetusername=targetusername                 username or alias for the target org; overrides default target org
+
+  --apiversion=apiversion                             override the api version used for api requests made by this command
+
+  --json                                              format output as json
+
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+
+EXAMPLES
+  $ sfdx sfpowerkit:profile:merge -u sandbox
+  $ sfdx sfpowerkit:profile:merge -f force-app -n "My Profile" -r -u sandbox
+  $ sfdx sfpowerkit:profile:merge -f "module1, module2, module3" -n "My Profile1, My profile2"  -u sandbox
+```

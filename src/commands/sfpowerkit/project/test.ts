@@ -1,6 +1,7 @@
 import { core, SfdxCommand, FlagsConfig, flags } from "@salesforce/command";
 import DiffUtil from "../../../shared/diffutils";
 import * as path from 'path'
+import { MetadataInfoUtils, SOURCE_EXTENSION_REGEX } from "../../../shared/metadataInfo";
 import { SfPowerKit } from "../../../shared/sfpowerkit";
 
 // Initialize Messages with the current plugin directory
@@ -13,7 +14,7 @@ const messages = core.Messages.loadMessages(
   "project_diff"
 );
 
-export default class Diff extends SfdxCommand {
+export default class Test extends SfdxCommand {
   public static description = messages.getMessage(
     "commandDescription"
   );
@@ -48,40 +49,16 @@ export default class Diff extends SfdxCommand {
     difffile: flags.string({ char: 'f', description: messages.getMessage('diffFileDescription'), required: false }),
     encoding: flags.string({ char: 'e', description: messages.getMessage('encodingDescription'), required: false }),
     revisionfrom: flags.string({ char: 'r', description: messages.getMessage('revisionFromDescription'), required: false }),
-    revisionto: flags.string({ char: 't', description: messages.getMessage('revisionToDescription'), required: false }),
-    output: flags.string({ char: 'd', description: messages.getMessage('outputFolderDescription'), required: true })
+    revisionto: flags.string({ char: 't', description: messages.getMessage('revisionToDescription'), required: false })
   };
   protected static requiresUsername = false;
-  protected static requiresProject = true;
+  protected static requiresProject = false;
 
   public async run(): Promise<any> {
     SfPowerKit.ux=this.ux;
-    const diffFile: string = this.flags.difffile;
-    let encoding: string = this.flags.encoding;
-    const outputFolder: string = this.flags.output;
-    const revisionfrom: string = this.flags.revisionfrom;
-    const revisionto: string = this.flags.revisionto;
-    if (!encoding || encoding === "") {
-      encoding = "utf8";
-    }
-
-    if ((diffFile === undefined || diffFile === '') && (revisionfrom === undefined || revisionfrom === '')) {
-      this.error('Provide either diffFile or revisionFrom parameters')
-    }
-
-    let diffUtils = new DiffUtil(revisionfrom, revisionto);
-
-    /* PATH TO DIFF FILE */
-    let diffFilePath = ''
-    if (diffFile) {
-      diffFilePath = path.join(process.cwd(), diffFile);
-    }
-
-    let diffOutput = await diffUtils.build(diffFilePath, encoding, outputFolder);
-    if (!this.flags.json)
-      this.ux.logJson(diffOutput);
-    return diffOutput;
-
-
+    let metadataName=MetadataInfoUtils.getMetadataName("ccare-ihm\\force-app\\ihm\\email\\DACH.approvalProcess-meta.xml");
+    this.ux.log(metadataName)
+    let filePath = "DC_Brand.Biotherm_Homme.md-meta.xml"
+    this.ux.log(filePath.replace(SOURCE_EXTENSION_REGEX,''))
   }
 }
