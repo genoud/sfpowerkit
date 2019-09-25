@@ -1,0 +1,6 @@
+{
+  "commandDescription": "Export data with deeply nested parents and circular references, suitable to be exported with the standard sfdx import commands using data plan",
+  "dataConfigDescription": "Data sctructure description file",
+  "outputFolderDescription": "Data output folder",
+  "queryFolderDescription": "Folder that contains query on SObjects. The query must be named with the SObjectType Name Like Account.soql"
+}
