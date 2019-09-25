@@ -1,0 +1,5 @@
+{
+  "commandDescription": "Generate test data from a sample data folder by maping record type developer name with the Id from the target org",
+  "sampleFolderDescription": "name of the sample folder that will be used as input",
+  "outputFolderDescription": "name of the output folder that will contain the modified files"
+}
