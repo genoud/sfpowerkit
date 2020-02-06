@@ -13,7 +13,7 @@ core.Messages.importMessagesDirectory(__dirname);
 const messages = core.Messages.loadMessages("sfpowerkit", "data_tree_export");
 import { fs as SfdxUtil } from "@salesforce/core";
 
-export default class Load extends SfdxCommand {
+export default class Export extends SfdxCommand {
   public static description = messages.getMessage("commandDescription");
 
   public static examples = [
